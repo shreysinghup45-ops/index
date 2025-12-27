@@ -46,14 +46,11 @@
 
     <button onclick="checkout()" style="padding:12px 30px; background:#00ffcc; color:black; border:none; margin-left:10px;">
         Proceed to Checkout
-    </button>
-
-</div>
-
-<footer>
-    <p>© 2025 SportX | Secure Checkout</p>
-</footer>
-
-<script src="script.js"></script>
+    <form id="orderForm" action="YOUR_FORMSPREE_URL" method="POST">
+    <input type="hidden" name="orderData" id="orderData">
+    <button type="submit">Checkout</button>
+</form>
+        
 </body>
 </html>
+
