@@ -99,15 +99,12 @@ function clearCart() {
 // Checkout
 function checkout() {
     if (cart.length === 0) {
-        alert("Your cart is empty!");
+        alert("Cart is empty!");
         return;
     }
 
-    alert("Thank you for your purchase! 🎉");
-    cart = [];
-    saveCart();
-    loadCart();
-}
+    const orderSummary = JSON.stringify(cart.map(i => `${i.name} x ${i.quantity} = ₹${i.price*i.quantity}`), null, 2);
 
-// Load cart on page open
-window.onload = loadCart;
+    document.getElementById('orderData').value = orderSummary;
+    alert("Your order will be sent via email!");
+}
