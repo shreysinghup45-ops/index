@@ -1,41 +1,25 @@
-// =============================
-// CART SYSTEM - SPORTX
-// =============================
-
 // Load cart from localStorage
 let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
-// Save cart to localStorage
 function saveCart() {
     localStorage.setItem("cart", JSON.stringify(cart));
 }
 
-// Add item to cart
 function addToCart(name, price) {
-    const item = {
-        name: name,
-        price: price,
-        quantity: 1
-    };
-
-    // Check if item already exists
+    const item = { name, price, quantity: 1 };
     let found = cart.find(p => p.name === name);
-
     if (found) {
         found.quantity++;
     } else {
         cart.push(item);
     }
-
     saveCart();
     alert(name + " added to cart!");
 }
 
-// Display cart items
 function loadCart() {
     const cartContainer = document.getElementById("cart-items");
     const totalPriceElement = document.getElementById("total-price");
-
     if (!cartContainer) return;
 
     cartContainer.innerHTML = "";
@@ -43,7 +27,6 @@ function loadCart() {
 
     cart.forEach((item, index) => {
         total += item.price * item.quantity;
-
         cartContainer.innerHTML += `
             <div class="cart-item">
                 <div>
@@ -63,14 +46,12 @@ function loadCart() {
     totalPriceElement.innerText = total;
 }
 
-// Increase quantity
 function increaseQty(index) {
     cart[index].quantity++;
     saveCart();
     loadCart();
 }
 
-// Decrease quantity
 function decreaseQty(index) {
     if (cart[index].quantity > 1) {
         cart[index].quantity--;
@@ -81,14 +62,12 @@ function decreaseQty(index) {
     loadCart();
 }
 
-// Remove item
 function removeItem(index) {
     cart.splice(index, 1);
     saveCart();
     loadCart();
 }
 
-// Clear cart
 function clearCart() {
     cart = [];
     saveCart();
@@ -96,15 +75,33 @@ function clearCart() {
     alert("Cart cleared!");
 }
 
-// Checkout
-function checkout() {
-    if (cart.length === 0) {
-        alert("Cart is empty!");
-        return;
-    }
+// Formspree Checkout
+const orderForm = document.getElementById("orderForm");
+if (orderForm) {
+    orderForm.addEventListener("submit", function(e) {
+        if (cart.length === 0) {
+            alert("Cart is empty!");
+            e.preventDefault();
+            return;
+        }
 
-    const orderSummary = JSON.stringify(cart.map(i => `${i.name} x ${i.quantity} = ₹${i.price*i.quantity}`), null, 2);
+        const orderSummary = cart.map(i => `${i.name} x ${i.quantity} = ₹${i.price*i.quantity}`).join("\n");
+        document.getElementById("orderData").value = orderSummary;
 
-    document.getElementById('orderData').value = orderSummary;
-    alert("Your order will be sent via email!");
+        const name = document.getElementById("nameInput").value;
+        const email = document.getElementById("emailInput").value;
+        if (!name || !email) {
+            alert("Please fill your name and email!");
+            e.preventDefault();
+            return;
+        }
+        document.getElementById("customerName").value = name;
+        document.getElementById("customerEmail").value = email;
+
+        alert("Your order will be sent to our email!");
+        clearCart();
+    });
 }
+
+// Load cart on page open
+window.onload = loadCart;
