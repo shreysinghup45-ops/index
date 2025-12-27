@@ -29,7 +29,6 @@
 <div class="cart-box">
 
     <h2 style="margin-bottom:20px;">Cart Items</h2>
-
     <div id="cart-items">
         <!-- Items inserted by JavaScript -->
     </div>
@@ -44,13 +43,26 @@
         Clear Cart
     </button>
 
-    <button onclick="checkout()" style="padding:12px 30px; background:#00ffcc; color:black; border:none; margin-left:10px;">
-        Proceed to Checkout
-    <form id="orderForm" action="YOUR_FORMSPREE_URL" method="POST">
-    <input type="hidden" name="orderData" id="orderData">
-    <button type="submit">Checkout</button>
-</form>
-        
+    <!-- Formspree Checkout -->
+    <form id="orderForm" action="https://formspree.io/f/meeqakzj" method="POST">
+        <input type="hidden" name="order" id="orderData">
+        <input type="hidden" name="customerName" id="customerName">
+        <input type="hidden" name="customerEmail" id="customerEmail">
+        <br>
+        <input type="text" id="nameInput" placeholder="Your Name" required style="padding:8px;width:250px;margin-top:10px;">
+        <input type="email" id="emailInput" placeholder="Your Email" required style="padding:8px;width:250px;margin-top:10px;">
+        <br><br>
+        <button type="submit" style="padding:12px 30px; background:#00ffcc; border:none; cursor:pointer;">
+            Checkout & Send Order
+        </button>
+    </form>
+
+</div>
+
+<footer>
+    <p>© 2025 SportX | Secure Checkout</p>
+</footer>
+
+<script src="script.js"></script>
 </body>
 </html>
-
